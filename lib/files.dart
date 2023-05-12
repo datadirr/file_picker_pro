@@ -170,14 +170,17 @@ class Files {
   static viewFile(
       {required FileData fileData, Function(FileData fileData)? onView}) {
     try {
-      if (!Files._isNullOREmpty(fileData.path)) {
+      String path = (!Files._isNullOREmpty(fileData.path))
+          ? fileData.path
+          : fileData.otherDevicePath;
+      if (!Files._isNullOREmpty(path)) {
         if (onView != null) {
           onView(fileData);
         } else {
-          if (Files.isHttpPath(fileData.path)) {
-            Open.browser(url: fileData.path);
+          if (Files.isHttpPath(path)) {
+            Open.browser(url: path);
           } else {
-            Open.localFile(filePath: fileData.path);
+            Open.localFile(filePath: path);
           }
         }
       } else {
@@ -197,6 +200,7 @@ class Files {
     fileData.filePath = "";
     fileData.fileMimeType = "";
     fileData.path = "";
+    fileData.otherDevicePath = "";
     onDeleted(fileData);
   }
 
