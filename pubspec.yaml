@@ -16,9 +16,9 @@ dependencies:
   plugin_platform_interface: ^2.1.4
   open_share_plus: ^1.1.0
   mime: ^1.0.4
-  image_picker: ^0.8.7+3
-  file_picker: ^5.2.10
-  image_cropper: ^3.0.2
+  image_picker: ^0.8.7+5
+  file_picker: ^5.3.0
+  image_cropper: ^3.0.3
 
 dev_dependencies:
   flutter_test:

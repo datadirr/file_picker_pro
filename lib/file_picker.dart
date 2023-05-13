@@ -8,6 +8,7 @@ class FilePicker extends StatefulWidget {
   final BuildContext context;
   final FileData fileData;
   final Function(FileData fileData) onSelected;
+  final Function(FileData fileData)? onOtherDeviceSelected;
   final Function(String message, int messageCode)? onCancel;
   final Function(FileData fileData)? onDeleted;
   final Function(FileData fileData)? onView;
@@ -33,6 +34,7 @@ class FilePicker extends StatefulWidget {
       required this.context,
       required this.fileData,
       required this.onSelected,
+      this.onOtherDeviceSelected,
       this.onCancel,
       this.onDeleted,
       this.onView,
@@ -236,7 +238,10 @@ class _FilePickerState extends State<FilePicker> {
                               child: GestureDetector(
                                 onTap: () {
                                   log("onOtherDeviceSelected");
-                                  widget.onSelected(widget.fileData);
+                                  if (widget.onOtherDeviceSelected != null) {
+                                    widget.onOtherDeviceSelected!(
+                                        widget.fileData);
+                                  }
                                   Navigator.pop(context);
                                 },
                                 child: Column(
