@@ -1,3 +1,7 @@
+## 1.5.0
+
+* Include more extensions.
+
 ## 1.4.0
 
 * Include more extensions.
