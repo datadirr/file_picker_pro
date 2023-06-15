@@ -35,7 +35,12 @@ class _MyAppState extends State<MyApp> {
                   fileData: _fileData,
                   crop: true,
                   maxFileSizeInMb: 10,
-                  allowedExtensions: Files.allowedAllExtensions,
+                  allowedExtensions: const [
+                    Files.txt,
+                    Files.png,
+                    Files.jpg,
+                    Files.pdf
+                  ],
                   onSelected: (fileData) {
                     _fileData = fileData;
                     log(fileData.filePath);

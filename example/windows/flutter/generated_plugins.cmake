@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_picker_pro
+  file_selector_windows
   open_share_plus
   url_launcher_windows
 )

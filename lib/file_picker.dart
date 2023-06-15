@@ -24,7 +24,7 @@ class FilePicker extends StatefulWidget {
   final String cropperToolbarTitle;
   final Color cropperToolbarColor;
   final Color cropperToolbarWidgetsColor;
-  final List<String> allowedExtensions;
+  final List<String>? allowedExtensions;
   final double? width;
   final double? height;
   final Widget? child;
@@ -50,7 +50,7 @@ class FilePicker extends StatefulWidget {
       this.cropperToolbarTitle = Files.cropperToolbarTitle,
       this.cropperToolbarColor = Files.cropperToolbarColor,
       this.cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
-      this.allowedExtensions = Files.allowedAllExtensions,
+      this.allowedExtensions,
       this.width,
       this.height,
       this.child})
