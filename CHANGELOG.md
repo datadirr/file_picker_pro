@@ -1,6 +1,6 @@
 ## 1.5.0
 
-* Include more extensions.
+* Upgrade.
 
 ## 1.4.0
 
