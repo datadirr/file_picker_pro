@@ -30,7 +30,7 @@ class FilePicker extends StatefulWidget {
   final Widget? child;
 
   const FilePicker(
-      {Key? key,
+      {super.key,
       required this.context,
       required this.fileData,
       required this.onSelected,
@@ -53,8 +53,7 @@ class FilePicker extends StatefulWidget {
       this.allowedExtensions,
       this.width,
       this.height,
-      this.child})
-      : super(key: key);
+      this.child});
 
   @override
   State<FilePicker> createState() => _FilePickerState();

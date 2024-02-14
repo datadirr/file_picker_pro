@@ -13,17 +13,17 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  plugin_platform_interface: ^2.1.5
+  plugin_platform_interface: ^2.1.8
   open_share_plus: ^1.2.0
-  mime: ^1.0.4
-  image_picker: ^1.0.2
-  file_picker: ^5.3.3
-  image_cropper: ^5.0.0
+  mime: ^1.0.5
+  image_picker: ^1.0.7
+  file_picker: ^6.1.1
+  image_cropper: ^5.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
