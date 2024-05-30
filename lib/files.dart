@@ -408,8 +408,14 @@ class Files {
       Function(String message, int messageCode)? onCancel,
       int? maxFileSizeInMb,
       List<String>? allowedExtensions}) async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: allowedExtensions);
+    List<String>? extensions = allowedExtensions
+        ?.map((e) => Files.getFileExtension(e, withDot: false))
+        .toList();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: (allowedExtensions ?? []).isNotEmpty
+            ? FileType.custom
+            : FileType.any,
+        allowedExtensions: extensions);
     if (result != null && result.files.single.path != null) {
       if (maxFileSizeInMb != null &&
           Files.mb(result.files.single.size) > maxFileSizeInMb) {

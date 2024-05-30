@@ -1,6 +1,7 @@
 ## 1.7.0
 
-* Upgrade.
+* Add namespace for android.
+* Upgrade dependencies.
 
 ## 1.6.0
 
