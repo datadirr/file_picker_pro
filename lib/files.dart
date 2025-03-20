@@ -17,7 +17,7 @@ enum FileMode {
   gallery,
 
   /// pick from file
-  file
+  file,
 }
 
 /// [Files] provide verity of file picker like camera, gallery, file
@@ -96,9 +96,9 @@ class Files {
     if (withExtension) {
       if (!Files._isNullOREmpty(path)) {
         if (path.toString().contains("/")) {
-          fileName =
-              (path.toString().substring(path.toString().lastIndexOf("/")))
-                  .replaceAll("/", "");
+          fileName = (path.toString().substring(
+            path.toString().lastIndexOf("/"),
+          )).replaceAll("/", "");
         } else {
           fileName = path.toString();
         }
@@ -106,13 +106,14 @@ class Files {
     } else {
       if (!Files._isNullOREmpty(path)) {
         if (path.toString().contains("/")) {
-          fileName =
-              ((path.toString().substring(path.toString().lastIndexOf("/")))
-                      .replaceAll("/", ""))
-                  .replaceAll(Files.getFileExtension(path), "");
+          fileName = ((path.toString().substring(
+            path.toString().lastIndexOf("/"),
+          )).replaceAll("/", "")).replaceAll(Files.getFileExtension(path), "");
         } else {
-          fileName =
-              (path.toString()).replaceAll(Files.getFileExtension(path), "");
+          fileName = (path.toString()).replaceAll(
+            Files.getFileExtension(path),
+            "",
+          );
         }
       }
     }
@@ -125,8 +126,9 @@ class Files {
     if (withDot) {
       if (!Files._isNullOREmpty(path)) {
         if (path.toString().contains(".")) {
-          extension =
-              path.toString().substring(path.toString().lastIndexOf("."));
+          extension = path.toString().substring(
+            path.toString().lastIndexOf("."),
+          );
         } else {
           extension = ".${path.toString()}";
         }
@@ -134,9 +136,9 @@ class Files {
     } else {
       if (!Files._isNullOREmpty(path)) {
         if (path.toString().contains(".")) {
-          extension =
-              (path.toString().substring(path.toString().lastIndexOf(".")))
-                  .replaceAll(".", "");
+          extension = (path.toString().substring(
+            path.toString().lastIndexOf("."),
+          )).replaceAll(".", "");
         } else {
           extension = path.toString();
         }
@@ -176,12 +178,15 @@ class Files {
   }
 
   /// function file view
-  static viewFile(
-      {required FileData fileData, Function(FileData fileData)? onView}) {
+  static viewFile({
+    required FileData fileData,
+    Function(FileData fileData)? onView,
+  }) {
     try {
-      String path = (!Files._isNullOREmpty(fileData.path))
-          ? fileData.path
-          : fileData.otherDevicePath;
+      String path =
+          (!Files._isNullOREmpty(fileData.path))
+              ? fileData.path
+              : fileData.otherDevicePath;
       if (!Files._isNullOREmpty(path)) {
         if (onView != null) {
           onView(fileData);
@@ -201,9 +206,10 @@ class Files {
   }
 
   /// function file deletion
-  static deleteFile(
-      {required FileData fileData,
-      required Function(FileData fileData) onDeleted}) async {
+  static deleteFile({
+    required FileData fileData,
+    required Function(FileData fileData) onDeleted,
+  }) async {
     fileData.hasFile = false;
     fileData.fileName = "";
     fileData.filePath = "";
@@ -214,89 +220,94 @@ class Files {
   }
 
   /// function file picker options
-  static filePickerOptions(
-      {required BuildContext context,
-      required FileData fileData,
-      required FileMode fileMode,
-      required Function(FileData fileData) onSelected,
-      Function(String message, int messageCode)? onCancel,
-      bool crop = false,
-      int? maxFileSizeInMB,
-      bool cropOnlySquare = false,
-      String cropperToolbarTitle = Files.cropperToolbarTitle,
-      Color cropperToolbarColor = Files.cropperToolbarColor,
-      Color cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
-      List<String>? allowedExtensions}) async {
+  static filePickerOptions({
+    required BuildContext context,
+    required FileData fileData,
+    required FileMode fileMode,
+    required Function(FileData fileData) onSelected,
+    Function(String message, int messageCode)? onCancel,
+    bool crop = false,
+    int? maxFileSizeInMB,
+    bool cropOnlySquare = false,
+    String cropperToolbarTitle = Files.cropperToolbarTitle,
+    Color cropperToolbarColor = Files.cropperToolbarColor,
+    Color cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
+    List<String>? allowedExtensions,
+  }) async {
     fileMode == FileMode.camera
         ? await Files.cameraPicker(
-            fileData: fileData,
-            crop: crop,
-            maxFileSizeInMb: maxFileSizeInMB,
-            cropOnlySquare: cropOnlySquare,
-            cropperToolbarTitle: cropperToolbarTitle,
-            cropperToolbarColor: cropperToolbarColor,
-            cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
-            onSelected: (fileData) {
-              onSelected(fileData);
-            },
-            onCancel: (message, messageCode) {
-              if (onCancel != null) {
-                onCancel(message, messageCode);
-              }
-            })
+          fileData: fileData,
+          crop: crop,
+          maxFileSizeInMb: maxFileSizeInMB,
+          cropOnlySquare: cropOnlySquare,
+          cropperToolbarTitle: cropperToolbarTitle,
+          cropperToolbarColor: cropperToolbarColor,
+          cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
+          onSelected: (fileData) {
+            onSelected(fileData);
+          },
+          onCancel: (message, messageCode) {
+            if (onCancel != null) {
+              onCancel(message, messageCode);
+            }
+          },
+        )
         : fileMode == FileMode.gallery
-            ? await Files.imagePicker(
-                fileData: fileData,
-                crop: crop,
-                maxFileSizeInMb: maxFileSizeInMB,
-                cropOnlySquare: cropOnlySquare,
-                cropperToolbarTitle: cropperToolbarTitle,
-                cropperToolbarColor: cropperToolbarColor,
-                cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
-                onSelected: (fileData) {
-                  onSelected(fileData);
-                },
-                onCancel: (message, messageCode) {
-                  if (onCancel != null) {
-                    onCancel(message, messageCode);
-                  }
-                })
-            : await Files.filePicker(
-                fileData: fileData,
-                maxFileSizeInMb: maxFileSizeInMB,
-                allowedExtensions: allowedExtensions,
-                onSelected: (fileData) {
-                  onSelected(fileData);
-                },
-                onCancel: (message, messageCode) {
-                  if (onCancel != null) {
-                    onCancel(message, messageCode);
-                  }
-                });
+        ? await Files.imagePicker(
+          fileData: fileData,
+          crop: crop,
+          maxFileSizeInMb: maxFileSizeInMB,
+          cropOnlySquare: cropOnlySquare,
+          cropperToolbarTitle: cropperToolbarTitle,
+          cropperToolbarColor: cropperToolbarColor,
+          cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
+          onSelected: (fileData) {
+            onSelected(fileData);
+          },
+          onCancel: (message, messageCode) {
+            if (onCancel != null) {
+              onCancel(message, messageCode);
+            }
+          },
+        )
+        : await Files.filePicker(
+          fileData: fileData,
+          maxFileSizeInMb: maxFileSizeInMB,
+          allowedExtensions: allowedExtensions,
+          onSelected: (fileData) {
+            onSelected(fileData);
+          },
+          onCancel: (message, messageCode) {
+            if (onCancel != null) {
+              onCancel(message, messageCode);
+            }
+          },
+        );
   }
 
   /// function camera picker for take picture and save to temporary cache directory
-  static cameraPicker(
-      {required FileData fileData,
-      required Function(FileData fileData) onSelected,
-      Function(String message, int messageCode)? onCancel,
-      bool crop = false,
-      int? maxFileSizeInMb,
-      bool cropOnlySquare = false,
-      String cropperToolbarTitle = Files.cropperToolbarTitle,
-      Color cropperToolbarColor = Files.cropperToolbarColor,
-      Color cropperToolbarWidgetsColor =
-          Files.cropperToolbarWidgetsColor}) async {
+  static cameraPicker({
+    required FileData fileData,
+    required Function(FileData fileData) onSelected,
+    Function(String message, int messageCode)? onCancel,
+    bool crop = false,
+    int? maxFileSizeInMb,
+    bool cropOnlySquare = false,
+    String cropperToolbarTitle = Files.cropperToolbarTitle,
+    Color cropperToolbarColor = Files.cropperToolbarColor,
+    Color cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
+  }) async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image != null) {
       String filePath = "";
       if (crop) {
         CroppedFile? croppedImage = await Files._imageCrop(
-            filePath: image.path,
-            cropOnlySquare: cropOnlySquare,
-            cropperToolbarTitle: cropperToolbarTitle,
-            cropperToolbarColor: cropperToolbarColor,
-            cropperToolbarWidgetsColor: cropperToolbarWidgetsColor);
+          filePath: image.path,
+          cropOnlySquare: cropOnlySquare,
+          cropperToolbarTitle: cropperToolbarTitle,
+          cropperToolbarColor: cropperToolbarColor,
+          cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
+        );
         if (croppedImage != null) {
           filePath = croppedImage.path;
         }
@@ -308,19 +319,23 @@ class Files {
             Files.mb(File(filePath).readAsBytesSync().lengthInBytes) >
                 maxFileSizeInMb) {
           dev.log(
-              "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}");
+            "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}",
+          );
           if (onCancel != null) {
             onCancel(
-                Files._fileMoreThanMB(maxFileSizeInMb), Files._mcFPCForSize);
+              Files._fileMoreThanMB(maxFileSizeInMb),
+              Files._mcFPCForSize,
+            );
           }
           return;
         }
         FileData fileData = FileData(
-            hasFile: true,
-            fileName: Files.getFileName(filePath),
-            filePath: filePath,
-            fileMimeType: Files.getMimeType(filePath),
-            path: filePath);
+          hasFile: true,
+          fileName: Files.getFileName(filePath),
+          filePath: filePath,
+          fileMimeType: Files.getMimeType(filePath),
+          path: filePath,
+        );
         onSelected(fileData);
       } else {
         dev.log("[${Files._mcFPCForCancel}] ${Files._filePickCancel}");
@@ -339,27 +354,28 @@ class Files {
   }
 
   /// function image picker for pick image from gallery and save to temporary cache directory
-  static imagePicker(
-      {required FileData fileData,
-      required Function(FileData fileData) onSelected,
-      Function(String message, int messageCode)? onCancel,
-      bool crop = false,
-      int? maxFileSizeInMb,
-      bool cropOnlySquare = false,
-      String cropperToolbarTitle = Files.cropperToolbarTitle,
-      Color cropperToolbarColor = Files.cropperToolbarColor,
-      Color cropperToolbarWidgetsColor =
-          Files.cropperToolbarWidgetsColor}) async {
+  static imagePicker({
+    required FileData fileData,
+    required Function(FileData fileData) onSelected,
+    Function(String message, int messageCode)? onCancel,
+    bool crop = false,
+    int? maxFileSizeInMb,
+    bool cropOnlySquare = false,
+    String cropperToolbarTitle = Files.cropperToolbarTitle,
+    Color cropperToolbarColor = Files.cropperToolbarColor,
+    Color cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
+  }) async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
       String filePath = "";
       if (crop) {
         CroppedFile? croppedImage = await Files._imageCrop(
-            filePath: image.path,
-            cropOnlySquare: cropOnlySquare,
-            cropperToolbarTitle: cropperToolbarTitle,
-            cropperToolbarColor: cropperToolbarColor,
-            cropperToolbarWidgetsColor: cropperToolbarWidgetsColor);
+          filePath: image.path,
+          cropOnlySquare: cropOnlySquare,
+          cropperToolbarTitle: cropperToolbarTitle,
+          cropperToolbarColor: cropperToolbarColor,
+          cropperToolbarWidgetsColor: cropperToolbarWidgetsColor,
+        );
         if (croppedImage != null) {
           filePath = croppedImage.path;
         }
@@ -371,19 +387,23 @@ class Files {
             Files.mb(File(filePath).readAsBytesSync().lengthInBytes) >
                 maxFileSizeInMb) {
           dev.log(
-              "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}");
+            "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}",
+          );
           if (onCancel != null) {
             onCancel(
-                Files._fileMoreThanMB(maxFileSizeInMb), Files._mcFPCForSize);
+              Files._fileMoreThanMB(maxFileSizeInMb),
+              Files._mcFPCForSize,
+            );
           }
           return;
         }
         FileData fileData = FileData(
-            hasFile: true,
-            fileName: Files.getFileName(filePath),
-            filePath: filePath,
-            fileMimeType: Files.getMimeType(filePath),
-            path: filePath);
+          hasFile: true,
+          fileName: Files.getFileName(filePath),
+          filePath: filePath,
+          fileMimeType: Files.getMimeType(filePath),
+          path: filePath,
+        );
         onSelected(fileData);
       } else {
         dev.log("[${Files._mcFPCForCancel}] ${Files._filePickCancel}");
@@ -402,36 +422,40 @@ class Files {
   }
 
   /// function file picker for pick any file and save to temporary cache directory
-  static filePicker(
-      {required FileData fileData,
-      required Function(FileData fileData) onSelected,
-      Function(String message, int messageCode)? onCancel,
-      int? maxFileSizeInMb,
-      List<String>? allowedExtensions}) async {
-    List<String>? extensions = allowedExtensions
-        ?.map((e) => Files.getFileExtension(e, withDot: false))
-        .toList();
+  static filePicker({
+    required FileData fileData,
+    required Function(FileData fileData) onSelected,
+    Function(String message, int messageCode)? onCancel,
+    int? maxFileSizeInMb,
+    List<String>? allowedExtensions,
+  }) async {
+    List<String>? extensions =
+        allowedExtensions
+            ?.map((e) => Files.getFileExtension(e, withDot: false))
+            .toList();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: (allowedExtensions ?? []).isNotEmpty
-            ? FileType.custom
-            : FileType.any,
-        allowedExtensions: extensions);
+      type:
+          (allowedExtensions ?? []).isNotEmpty ? FileType.custom : FileType.any,
+      allowedExtensions: extensions,
+    );
     if (result != null && result.files.single.path != null) {
       if (maxFileSizeInMb != null &&
           Files.mb(result.files.single.size) > maxFileSizeInMb) {
         dev.log(
-            "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}");
+          "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}",
+        );
         if (onCancel != null) {
           onCancel(Files._fileMoreThanMB(maxFileSizeInMb), Files._mcFPCForSize);
         }
         return;
       }
       FileData fileData = FileData(
-          hasFile: true,
-          fileName: result.files.single.name,
-          filePath: result.files.single.path!,
-          fileMimeType: Files.getMimeType(result.files.single.path!),
-          path: result.files.single.path!);
+        hasFile: true,
+        fileName: result.files.single.name,
+        filePath: result.files.single.path!,
+        fileMimeType: Files.getMimeType(result.files.single.path!),
+        path: result.files.single.path!,
+      );
       onSelected(fileData);
     } else {
       dev.log("[${Files._mcFPCForCancel}] ${Files._filePickCancel}");
@@ -443,30 +467,45 @@ class Files {
   }
 
   /// function image cropper
-  static Future<CroppedFile?> _imageCrop(
-      {required String filePath,
-      bool cropOnlySquare = false,
-      String cropperToolbarTitle = Files.cropperToolbarTitle,
-      Color cropperToolbarColor = Files.cropperToolbarColor,
-      Color cropperToolbarWidgetsColor =
-          Files.cropperToolbarWidgetsColor}) async {
+  static Future<CroppedFile?> _imageCrop({
+    required String filePath,
+    bool cropOnlySquare = false,
+    String cropperToolbarTitle = Files.cropperToolbarTitle,
+    Color cropperToolbarColor = Files.cropperToolbarColor,
+    Color cropperToolbarWidgetsColor = Files.cropperToolbarWidgetsColor,
+  }) async {
     return await ImageCropper().cropImage(
-        sourcePath: filePath,
-        aspectRatioPresets: cropOnlySquare
-            ? [CropAspectRatioPreset.square]
-            : [CropAspectRatioPreset.original, CropAspectRatioPreset.square],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: cropperToolbarTitle,
-              toolbarColor: cropperToolbarColor,
-              toolbarWidgetColor: cropperToolbarWidgetsColor,
-              initAspectRatio: cropOnlySquare
+      sourcePath: filePath,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: cropperToolbarTitle,
+          toolbarColor: cropperToolbarColor,
+          toolbarWidgetColor: cropperToolbarWidgetsColor,
+          aspectRatioPresets:
+              cropOnlySquare
+                  ? [CropAspectRatioPreset.square]
+                  : [
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.square,
+                  ],
+          initAspectRatio:
+              cropOnlySquare
                   ? CropAspectRatioPreset.square
                   : CropAspectRatioPreset.original,
-              lockAspectRatio: cropOnlySquare ? true : false),
-          IOSUiSettings(
-              title: cropperToolbarTitle,
-              aspectRatioLockEnabled: cropOnlySquare ? true : false)
-        ]);
+          lockAspectRatio: cropOnlySquare ? true : false,
+        ),
+        IOSUiSettings(
+          title: cropperToolbarTitle,
+          aspectRatioPresets:
+              cropOnlySquare
+                  ? [CropAspectRatioPreset.square]
+                  : [
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.square,
+                  ],
+          aspectRatioLockEnabled: cropOnlySquare ? true : false,
+        ),
+      ],
+    );
   }
 }

@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -23,32 +23,31 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('file_picker_pro'),
-        ),
+        appBar: AppBar(title: const Text('file_picker_pro')),
         body: SafeArea(
           child: Column(
             children: [
               FilePicker(
-                  context: context,
-                  height: 100,
-                  fileData: _fileData,
-                  crop: true,
-                  maxFileSizeInMb: 10,
-                  allowedExtensions: const [
-                    Files.txt,
-                    Files.png,
-                    Files.jpg,
-                    Files.pdf
-                  ],
-                  onSelected: (fileData) {
-                    _fileData = fileData;
-                    log(fileData.filePath);
-                    setState(() {});
-                  },
-                  onCancel: (message, messageCode) {
-                    log("[$messageCode] $message");
-                  }),
+                context: context,
+                height: 100,
+                fileData: _fileData,
+                crop: true,
+                maxFileSizeInMb: 10,
+                allowedExtensions: const [
+                  Files.txt,
+                  Files.png,
+                  Files.jpg,
+                  Files.pdf,
+                ],
+                onSelected: (fileData) {
+                  _fileData = fileData;
+                  log(fileData.filePath);
+                  setState(() {});
+                },
+                onCancel: (message, messageCode) {
+                  log("[$messageCode] $message");
+                },
+              ),
             ],
           ),
         ),

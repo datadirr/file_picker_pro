@@ -20,7 +20,6 @@ class FilePickerProPlugin : public flutter::Plugin {
   FilePickerProPlugin(const FilePickerProPlugin&) = delete;
   FilePickerProPlugin& operator=(const FilePickerProPlugin&) = delete;
 
- private:
   // Called when a method is called on this plugin's channel from Dart.
   void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
