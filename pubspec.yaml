@@ -2,7 +2,7 @@ name: file_picker_pro
 description: "Flutter plugin for selecting files from any devices file library, and taking a new pictures with the camera."
 repository: https://github.com/datadirr/file_picker_pro
 homepage: https://datadirr.com
-version: 2.0.0
+version: 2.1.0
 
 environment:
   sdk: ^3.7.2
