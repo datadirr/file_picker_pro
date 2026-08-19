@@ -431,15 +431,15 @@ class Files {
     List<String>? extensions = allowedExtensions
         ?.map((e) => Files.getFileExtension(e, withDot: false))
         .toList();
-    FilePickerResult? result = await FilePicker.pickFiles(
+    PlatformFile? file = await FilePicker.pickFile(
       type: (allowedExtensions ?? []).isNotEmpty
           ? FileType.custom
           : FileType.any,
       allowedExtensions: extensions,
     );
-    if (result != null && result.files.single.path != null) {
+    if (file != null) {
       if (maxFileSizeInMb != null &&
-          Files.mb(result.files.single.size) > maxFileSizeInMb) {
+          Files.mb(await file.length()) > maxFileSizeInMb) {
         dev.log(
           "[${Files._mcFPCForSize}] ${Files._fileMoreThanMB(maxFileSizeInMb)}",
         );
@@ -450,10 +450,10 @@ class Files {
       }
       FileData fileData = FileData(
         hasFile: true,
-        fileName: result.files.single.name,
-        filePath: result.files.single.path!,
-        fileMimeType: Files.getMimeType(result.files.single.path!),
-        path: result.files.single.path!,
+        fileName: file.name,
+        filePath: file.path!,
+        fileMimeType: Files.getMimeType(file.path!),
+        path: file.path!,
       );
       onSelected(fileData);
     } else {

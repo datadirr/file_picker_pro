@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import file_picker
+import file_picker_darwin
 import file_picker_pro
 import file_selector_macos
 import open_share_plus
